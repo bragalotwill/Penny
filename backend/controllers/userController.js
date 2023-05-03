@@ -41,14 +41,15 @@ export const registerUser = async (req, res) => {
 
         if (user) {
             const savedUser = await user.save()
-            res.status(201).json(savedUser)
-        } else {
-            res.status(400).send("Invalid user data.")
+            return res.status(201).json(savedUser)
         }
+
+        return res.status(400).send("Invalid user data.")
+        
 
     } catch (err) {
         console.log(err)
-        res.status(500).send(err)
+        return res.status(500).send(err)
     }   
 }
 
@@ -57,8 +58,34 @@ export const registerUser = async (req, res) => {
 @route  POST /api/users/login
 @access PUBLIC
 */
-export const loginUser = (req, res) => {
-    res.status(201).json()
+export const loginUser = async (req, res) => {
+    try {
+        const {
+            username,
+            password
+        } = req.body
+
+        if (!username || !password) {
+            return res.status(400).send("Missing required fields to login")
+        }
+
+        const user = await User.findOne({username})
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+
+        const hash = user.password
+        const valid = await bcrypt.compare(password, hash)
+        if (!valid) {
+            return res.status(400).send("Incorrect password")
+        }
+
+        return res.status(200).json(user)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
 }
 
 /*
@@ -66,6 +93,23 @@ export const loginUser = (req, res) => {
 @route  GET /api/users
 @access PUBLIC
 */
-export const getUser = (req, res) => {
-    res.status(200).json()
+export const getUser = async (req, res) => {
+    try {
+        const { username } = req.body
+
+        if (!username) {
+            return res.status(400).send("Missing required fields to get user")
+        }
+
+        const user = await User.findOne({username})
+        if (!user) {
+            return res.status(400).send("User not found")
+        }
+
+        return res.status(200).json(user)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
 }

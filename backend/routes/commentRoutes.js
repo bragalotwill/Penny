@@ -1,9 +1,12 @@
 import express from 'express'
-import { getComment, makeComment, likeComment } from '.../controllers/commentController.js'
-const router = express.Router()
+import { getComment, makeComment, likeComment } from '../controllers/commentController.js'
+
+
+const commentRoutes = express.Router()
 
 //api/comments
-router.get('/', getComment)
-router.post('/create', makeComment)
-router.post('/like', likeComment) //cannot unlike comment for now (could cause money issue?)
+commentRoutes.get('/', getComment)
+commentRoutes.post('/create', makeComment)
+commentRoutes.post('/like', likeComment) //cannot unlike comment for now (could cause money issue?)
 
+export default commentRoutes

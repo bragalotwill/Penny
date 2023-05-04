@@ -94,13 +94,13 @@ export const loginUser = async (req, res) => {
 */
 export const getUser = async (req, res) => {
     try {
-        const { username } = req.body
+        const { _id } = req.body
 
-        if (!username) {
+        if (!_id) {
             return res.status(400).send("Missing required fields to get user.")
         }
 
-        const user = await User.findOne({username})
+        const user = await User.findOne({_id})
         if (!user) {
             return res.status(400).send("User not found.")
         }

@@ -34,7 +34,7 @@ export const getPost = async (req, res) => {
 export const makePost = async (req, res) => {
     try {
         const {
-            creator,
+            creator_id,
             image,
             text
         } = req.body
@@ -46,13 +46,13 @@ export const makePost = async (req, res) => {
             return res.status(400).send("Post must have image or text.")
         }
 
-        const user = await User.findOne({username: creator})
+        const user = await User.findOne({_id: creator_id})
         if (!user) {
             return res.status(400).send("Creator user not found.")
         }
 
         const post = new Post({
-            creator,
+            creator_id,
             image: image ? image:"",
             text: text ? text:""
         })
@@ -66,8 +66,9 @@ export const makePost = async (req, res) => {
         //add post id to user's posts
         try {
             User.updateOne(
-                {username: creator},
-                {$push: {posts: savedPost._id}})
+                {_id: creator_id},
+                {$push: {posts: savedPost._id}}
+            )
         } catch (err) {
             Post.deleteOne({_id: savedPost._id})
             console.log(err)
@@ -87,9 +88,49 @@ export const makePost = async (req, res) => {
 @route  POST /api/posts/like
 @access <REVIEW>
 */
-export const likePost = (req, res) => {
+export const likePost = async (req, res) => {
     try {
-        //TODO
+        const {
+            user_id,
+            post_id
+        } = req.body
+
+        if (!username || !post_id) {
+            return res.status(400).send("Missing username or post id.")
+        }
+
+        const post = await Post.findOne({_id: post_id})
+        if (!post) {
+            return res.status(400).send("Post not found.")
+        }
+
+        const user = await User.findOne({_id: user_id})
+        if (!user) {
+            return res.status(400).send("User not found.")
+        }
+
+        if (user.pennies < 1) {
+            return res.status(400).send("User does not have enough pennies to like post")
+        }
+
+        Post.updateOne(
+            {_id: post_id},
+            {
+                $push: {whoLiked: user_id},
+                $set: {pennies: post.pennies + 1}
+            }
+        )
+
+        User.updateOne(
+            {_id: user_id},
+            {
+                $push: {likedPosts: user_id},
+                $set: {pennies: user.pennies - 1}
+            }
+        )
+
+        return res.status(201).json(post)
+
     } catch(err) {
         console.log(err)
         return res.status(500).send(err)

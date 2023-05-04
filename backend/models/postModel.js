@@ -1,8 +1,8 @@
 import mongoose from "mongoose"
 
 const postSchema = mongoose.Schema({
-    creator: {
-        type: Schema.Types.ObjectId,
+    creator_id: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     image: {

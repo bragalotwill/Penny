@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const commentSchema = mongoose.Schema({
     creator: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     image: {
@@ -23,10 +23,10 @@ const commentSchema = mongoose.Schema({
         default: []
     },
     parentComment: {
-        type: Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId
     },
     parentPost: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     whoLiked: {

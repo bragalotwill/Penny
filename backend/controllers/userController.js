@@ -39,14 +39,13 @@ export const registerUser = async (req, res) => {
             pfp: pfp ? pfp : ""
         })
 
-        if (user) {
-            const savedUser = await user.save()
-            return res.status(201).json(savedUser)
+        if (!user) {
+            return res.status(400).send("Invalid user data.")
         }
 
-        return res.status(400).send("Invalid user data.")
-        
-
+        const savedUser = await user.save()
+        return res.status(201).json(savedUser)
+    
     } catch (err) {
         console.log(err)
         return res.status(500).send(err)
@@ -66,18 +65,18 @@ export const loginUser = async (req, res) => {
         } = req.body
 
         if (!username || !password) {
-            return res.status(400).send("Missing required fields to login")
+            return res.status(400).send("Missing required fields to login.")
         }
 
         const user = await User.findOne({username})
         if (!user) {
-            return res.status(400).send("User not found")
+            return res.status(400).send("User not found.")
         }
 
         const hash = user.password
         const valid = await bcrypt.compare(password, hash)
         if (!valid) {
-            return res.status(400).send("Incorrect password")
+            return res.status(400).send("Incorrect password.")
         }
 
         return res.status(200).json(user)
@@ -91,19 +90,19 @@ export const loginUser = async (req, res) => {
 /*
 @desc   Gets user data
 @route  GET /api/users
-@access PUBLIC
+@access <REVIEW>
 */
 export const getUser = async (req, res) => {
     try {
         const { username } = req.body
 
         if (!username) {
-            return res.status(400).send("Missing required fields to get user")
+            return res.status(400).send("Missing required fields to get user.")
         }
 
         const user = await User.findOne({username})
         if (!user) {
-            return res.status(400).send("User not found")
+            return res.status(400).send("User not found.")
         }
 
         return res.status(200).json(user)

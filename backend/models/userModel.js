@@ -26,6 +26,22 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: []
     },
+    posts: {
+        type: Array,
+        default: []
+    },
+    comments: {
+        type: Array,
+        default: []
+    },
+    likedComments: {
+        type: Array,
+        default: []
+    },
+    likedPosts: {
+        type: Array,
+        default: []
+    },
     interests: {
         type: Array,
         default: []
@@ -38,4 +54,4 @@ const userSchema = mongoose.Schema({
 )
 
 const User = mongoose.model("User", userSchema)
-export default User;
+export default User

@@ -1,12 +1,13 @@
-import User from "../models/userModel.js";
+import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
+import { Request, Response } from "express"
 
 /*
 @desc   Registers a new user
 @route  POST /api/users/register
 @access PUBLIC
 */
-export const registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
     try {
         const {
             username,
@@ -45,11 +46,11 @@ export const registerUser = async (req, res) => {
 
         const savedUser = await user.save()
         return res.status(201).json(savedUser)
-    
+
     } catch (err) {
         console.log(err)
         return res.status(500).send(err)
-    }   
+    }
 }
 
 /*
@@ -57,7 +58,7 @@ export const registerUser = async (req, res) => {
 @route  POST /api/users/login
 @access PUBLIC
 */
-export const loginUser = async (req, res) => {
+export const loginUser = async (req: Request, res: Response) => {
     try {
         const {
             username,
@@ -92,7 +93,7 @@ export const loginUser = async (req, res) => {
 @route  GET /api/users
 @access <REVIEW>
 */
-export const getUser = async (req, res) => {
+export const getUser = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
 
@@ -104,6 +105,41 @@ export const getUser = async (req, res) => {
         if (!user) {
             return res.status(400).send("User not found.")
         }
+
+        return res.status(200).json(user)
+
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
+/*
+@desc   Gets user data
+@route  GET /api/users
+@access <REVIEW>
+*/
+export const addPennies = async (req: Request, res: Response) => {
+    try {
+        const { _id,
+                pennies
+        } = req.body
+
+        if (!_id || !pennies) {
+            return res.status(400).send("Missing required fields to add pennies.")
+        }
+
+        let user = await User.findOne({_id})
+        if (!user) {
+            return res.status(400).send("User not found.")
+        }
+
+        if (!Number.isInteger(pennies) || pennies < 1) {
+            return res.status(400).send("Invalid number of pennies")
+        }
+
+        User.updateOne({_id}, {$set: {pennies}})
+        user = await User.findOne({_id})
 
         return res.status(200).json(user)
 

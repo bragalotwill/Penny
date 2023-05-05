@@ -1,12 +1,14 @@
 import Post from "../models/postModel.js"
 import User from "../models/userModel.js"
+import { Request, Response } from "express"
+import { Types } from "mongoose";
 
 /*
 @desc   Gets post data
 @route  GET /api/posts
 @access <REVIEW>
 */
-export const getPost = async (req, res) => {
+export const getPost = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
         if (!_id) {
@@ -31,7 +33,7 @@ export const getPost = async (req, res) => {
 @route  POST /api/posts/create
 @access <REVIEW>
 */
-export const makePost = async (req, res) => {
+export const makePost = async (req: Request, res: Response) => {
     try {
         const {
             creator_id,
@@ -39,7 +41,7 @@ export const makePost = async (req, res) => {
             text
         } = req.body
 
-        if (!creator) {
+        if (!creator_id) {
             return res.status(400).send("No user creator specified.")
         }
         if (!image && !text) {
@@ -63,7 +65,7 @@ export const makePost = async (req, res) => {
 
         const savedPost = await post.save()
 
-        //add post id to user's posts
+        // add post id to user's posts
         try {
             User.updateOne(
                 {_id: creator_id},
@@ -88,14 +90,14 @@ export const makePost = async (req, res) => {
 @route  POST /api/posts/like
 @access <REVIEW>
 */
-export const likePost = async (req, res) => {
+export const likePost = async (req: Request, res: Response) => {
     try {
         const {
             user_id,
             post_id
         } = req.body
 
-        if (!username || !post_id) {
+        if (!user_id || !post_id) {
             return res.status(400).send("Missing username or post id.")
         }
 

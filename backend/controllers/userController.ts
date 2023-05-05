@@ -1,6 +1,7 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import { Request, Response } from "express"
+import { validateEmail, validateInteger, validatePassword, validateString, validateUsername } from "./request.js"
 
 /*
 @desc   Registers a new user
@@ -16,8 +17,16 @@ export const registerUser = async (req: Request, res: Response) => {
             pfp
         } = req.body
 
-        if (!username || !email || !password) {
-            return res.status(400).send("Missing required fields to register user.")
+        if (!username || !validateUsername(username)) {
+            return res.status(400).send("Invalid username")
+        }
+
+        if (!email || !validateEmail(email)) {
+            return res.status(400).send("Invalid email.")
+        }
+
+        if (!password || !validatePassword(password)) {
+            return res.status(400).send("Invalid password.")
         }
 
         const emailExists = await User.findOne({email})
@@ -65,8 +74,12 @@ export const loginUser = async (req: Request, res: Response) => {
             password
         } = req.body
 
-        if (!username || !password) {
-            return res.status(400).send("Missing required fields to login.")
+        if (!username || !validateUsername(username)) {
+            return res.status(400).send("Invalid username.")
+        }
+
+        if (!password || !validatePassword(password)) {
+            return res.status(400).send("Invalid password.")
         }
 
         const user = await User.findOne({username})
@@ -97,8 +110,8 @@ export const getUser = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
 
-        if (!_id) {
-            return res.status(400).send("Missing required fields to get user.")
+        if (!_id || !validateString(_id)) {
+            return res.status(400).send("Invalid user id.")
         }
 
         const user = await User.findOne({_id})
@@ -125,17 +138,17 @@ export const addPennies = async (req: Request, res: Response) => {
                 pennies
         } = req.body
 
-        if (!_id || !pennies) {
-            return res.status(400).send("Missing required fields to add pennies.")
+        if (!_id || !validateString(_id)) {
+            return res.status(400).send("Invalid user id.")
+        }
+
+        if (!pennies || !validateInteger(pennies, 1, 1000000)) {
+            return res.status(400).send("Invalid number of pennies.")
         }
 
         let user = await User.findOne({_id})
         if (!user) {
             return res.status(400).send("User not found.")
-        }
-
-        if (!Number.isInteger(pennies) || pennies < 1) {
-            return res.status(400).send("Invalid number of pennies")
         }
 
         User.updateOne({_id}, {$set: {pennies}})

@@ -1,7 +1,7 @@
 import Post from "../models/postModel.js"
 import User from "../models/userModel.js"
 import { Request, Response } from "express"
-import { Types } from "mongoose";
+import { validateString, validateUsername } from "./request.js";
 
 /*
 @desc   Gets post data
@@ -11,8 +11,8 @@ import { Types } from "mongoose";
 export const getPost = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
-        if (!_id) {
-            return res.status(400).send("Missing post id.")
+        if (!_id || !validateString(_id)) {
+            return res.status(400).send("Invalid post id.")
         }
 
         const post = await Post.findOne({_id})
@@ -41,11 +41,22 @@ export const makePost = async (req: Request, res: Response) => {
             text
         } = req.body
 
-        if (!creator_id) {
-            return res.status(400).send("No user creator specified.")
+        if (!creator_id || !validateUsername(creator_id)) {
+            return res.status(400).send("Invalid post creator.")
         }
+
         if (!image && !text) {
             return res.status(400).send("Post must have image or text.")
+        }
+
+        if (image && !validateString(image)) {
+            // TODO: Complete link validation
+            return res.status(400).send("Invalid image.")
+        }
+
+        if (text && !validateString(text, 1, 500, /[a-zA-Z0-9!@#$%^&*]+/)) {
+            // TODO: Allow more characters like emojis
+            return res.status(400).send("Invalid text.")
         }
 
         const user = await User.findOne({_id: creator_id})
@@ -97,8 +108,12 @@ export const likePost = async (req: Request, res: Response) => {
             post_id
         } = req.body
 
-        if (!user_id || !post_id) {
-            return res.status(400).send("Missing username or post id.")
+        if (!user_id || !validateUsername(user_id)) {
+            return res.status(400).send("Invalid username.")
+        }
+
+        if (!post_id || !validateString(post_id)) {
+            return res.status(400).send("Invalid post id.")
         }
 
         const post = await Post.findOne({_id: post_id})

@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const postSchema = new mongoose.Schema({
-    creator_id: {
+    creator: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },

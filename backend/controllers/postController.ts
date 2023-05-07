@@ -6,7 +6,7 @@ import { validateString, validateUsername } from "./request.js";
 /*
 @desc   Gets post data
 @route  GET /api/posts
-@access <REVIEW>
+TODO: @access <REVIEW>
 */
 export const getPost = async (req: Request, res: Response) => {
     try {
@@ -31,17 +31,18 @@ export const getPost = async (req: Request, res: Response) => {
 /*
 @desc   Makes a new post
 @route  POST /api/posts/create
-@access <REVIEW>
+TODO: @access <REVIEW>
 */
 export const makePost = async (req: Request, res: Response) => {
     try {
+        //TODO: make it cost a penny to create post
         const {
-            creator_id,
+            creatorId,
             image,
             text
         } = req.body
 
-        if (!creator_id || !validateUsername(creator_id)) {
+        if (!creatorId || !validateUsername(creatorId)) {
             return res.status(400).send("Invalid post creator.")
         }
 
@@ -59,19 +60,19 @@ export const makePost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid text.")
         }
 
-        const user = await User.findOne({_id: creator_id})
+        const user = await User.findOne({_id: creatorId})
         if (!user) {
             return res.status(400).send("Creator user not found.")
         }
 
         const post = new Post({
-            creator_id,
+            creator: creatorId,
             image: image ? image:"",
             text: text ? text:""
         })
 
         if (!post) {
-            return res.status(400).send("Invalid user data.")
+            return res.status(400).send("Invalid post data.")
         }
 
         const savedPost = await post.save()
@@ -79,7 +80,7 @@ export const makePost = async (req: Request, res: Response) => {
         // add post id to user's posts
         try {
             User.updateOne(
-                {_id: creator_id},
+                {_id: creatorId},
                 {$push: {posts: savedPost._id}}
             )
         } catch (err) {
@@ -99,29 +100,29 @@ export const makePost = async (req: Request, res: Response) => {
 /*
 @desc   Likes a post
 @route  POST /api/posts/like
-@access <REVIEW>
+TODO: @access <REVIEW>
 */
 export const likePost = async (req: Request, res: Response) => {
     try {
         const {
-            user_id,
-            post_id
+            userId,
+            postId
         } = req.body
 
-        if (!user_id || !validateUsername(user_id)) {
+        if (!userId || !validateUsername(userId)) {
             return res.status(400).send("Invalid username.")
         }
 
-        if (!post_id || !validateString(post_id)) {
+        if (!postId || !validateString(postId)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findOne({_id: post_id})
+        const post = await Post.findOne({_id: postId})
         if (!post) {
             return res.status(400).send("Post not found.")
         }
 
-        const user = await User.findOne({_id: user_id})
+        const user = await User.findOne({_id: userId})
         if (!user) {
             return res.status(400).send("User not found.")
         }
@@ -130,21 +131,33 @@ export const likePost = async (req: Request, res: Response) => {
             return res.status(400).send("User does not have enough pennies to like post")
         }
 
-        Post.updateOne(
-            {_id: post_id},
-            {
-                $push: {whoLiked: user_id},
-                $set: {pennies: post.pennies + 1}
-            }
-        )
-
         User.updateOne(
-            {_id: user_id},
+            {_id: userId},
             {
-                $push: {likedPosts: user_id},
+                $push: {likedPosts: postId},
                 $set: {pennies: user.pennies - 1}
             }
         )
+
+        try {
+            Post.updateOne(
+                {_id: postId},
+                {
+                    $push: {whoLiked: userId},
+                    $set: {pennies: post.pennies + 1}
+                }
+            )
+        } catch (err) {
+            User.updateOne(
+                {_id: userId},
+                {
+                    $pull: {likedPosts: postId},
+                    $set: {pennies: user.pennies + 1}
+                }
+            )
+            console.log(err);
+            return res.status(500).send(err)
+        }
 
         return res.status(201).json(post)
 
@@ -153,3 +166,5 @@ export const likePost = async (req: Request, res: Response) => {
         return res.status(500).send(err)
     }
 }
+
+//TODO: Delete Post (how will it work with pennies?)

@@ -25,7 +25,7 @@ const commentSchema = new mongoose.Schema({
     parentComment: {
         type: mongoose.Schema.Types.ObjectId
     },
-    parentPost: {
+    post: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },

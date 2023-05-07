@@ -29,6 +29,11 @@ export const registerUser = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid password.")
         }
 
+        //TODO: validate string is a path
+        if (!validateString(pfp)) {
+            return res.status(400).send("Invalid profile picture link.")
+        }
+
         const emailExists = await User.findOne({email})
         if (emailExists) {
             return res.status(400).send("Email already associated with an account.")
@@ -104,8 +109,9 @@ export const loginUser = async (req: Request, res: Response) => {
 /*
 @desc   Gets user data
 @route  GET /api/users
-@access <REVIEW>
+TODO: @access <REVIEW>
 */
+//TODO: Create private API access with token
 export const getUser = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
@@ -128,9 +134,9 @@ export const getUser = async (req: Request, res: Response) => {
 }
 
 /*
-@desc   Gets user data
-@route  GET /api/users
-@access <REVIEW>
+@desc   Adds pennies to user account
+@route  POST /api/users
+TODO: @access <REVIEW>
 */
 export const addPennies = async (req: Request, res: Response) => {
     try {
@@ -142,6 +148,7 @@ export const addPennies = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid user id.")
         }
 
+        //TODO: Double check max number of pennies
         if (!pennies || !validateInteger(pennies, 1, 1000000)) {
             return res.status(400).send("Invalid number of pennies.")
         }
@@ -161,3 +168,6 @@ export const addPennies = async (req: Request, res: Response) => {
         return res.status(500).send(err)
     }
 }
+
+
+//TODO: Delete user (how will it work with pennies?)

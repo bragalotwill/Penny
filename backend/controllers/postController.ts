@@ -15,7 +15,7 @@ export const getPost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findOne({_id})
+        const post = await Post.findById({_id})
         if (!post) {
             return res.status(400).send("No post with that id found.")
         }
@@ -59,7 +59,7 @@ export const makePost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid text.")
         }
 
-        const user = await User.findOne({_id: creatorId})
+        const user = await User.findById({creatorId})
         if (!user) {
             return res.status(400).send("Creator user not found.")
         }
@@ -82,7 +82,7 @@ export const makePost = async (req: Request, res: Response) => {
 
         // add post id to user's posts
         try {
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: creatorId},
                 {
                     $push: {posts: savedPost._id},
@@ -123,12 +123,12 @@ export const likePost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findOne({_id: postId})
+        const post = await Post.findById({postId})
         if (!post) {
             return res.status(400).send("Post not found.")
         }
 
-        const user = await User.findOne({_id: userId})
+        const user = await User.findById({userId})
         if (!user) {
             return res.status(400).send("User not found.")
         }
@@ -137,7 +137,7 @@ export const likePost = async (req: Request, res: Response) => {
             return res.status(400).send("User does not have enough pennies to like post")
         }
 
-        User.updateOne(
+        User.findByIdAndUpdate(
             {_id: userId},
             {
                 $push: {likedPosts: postId},
@@ -146,7 +146,7 @@ export const likePost = async (req: Request, res: Response) => {
         )
 
         try {
-            Post.updateOne(
+            Post.findByIdAndUpdate(
                 {_id: postId},
                 {
                     $push: {whoLiked: userId},
@@ -154,7 +154,7 @@ export const likePost = async (req: Request, res: Response) => {
                 }
             )
         } catch (err) {
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: userId},
                 {
                     $pull: {likedPosts: postId},

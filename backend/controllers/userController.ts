@@ -1,7 +1,11 @@
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 import { Request, Response } from "express"
 import { validateEmail, validateInteger, validatePassword, validateString, validateUsername } from "./request.js"
+import { Types } from "mongoose"
+
+// TODO: Add phone number/email verification
 
 /*
 @desc   Registers a new user
@@ -12,6 +16,7 @@ export const registerUser = async (req: Request, res: Response) => {
     try {
         const {
             username,
+            displayName,
             email,
             password,
             pfp
@@ -19,6 +24,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
         if (!username || !validateUsername(username)) {
             return res.status(400).send("Invalid username")
+        }
+
+        if (!displayName || !validateUsername(displayName)) {
+            return res.status(400).send("Invalid display name.")
         }
 
         if (!email || !validateEmail(email)) {
@@ -49,6 +58,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
         const user = new User({
             username,
+            displayName,
             email,
             password: hashedPassword,
             pfp: pfp ? pfp : ""
@@ -59,7 +69,14 @@ export const registerUser = async (req: Request, res: Response) => {
         }
 
         const savedUser = await user.save()
-        return res.status(201).json(savedUser)
+        return res.status(201).json({
+            _id: savedUser._id,
+            username: savedUser.username,
+            displayName: savedUser.displayName,
+            email: savedUser.email,
+            pfp: savedUser.pfp,
+            token: generateToken(savedUser._id)
+        })
 
     } catch (err) {
         console.log(err)
@@ -98,34 +115,16 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(400).send("Incorrect password.")
         }
 
-        return res.status(200).json(user)
-
-    } catch (err) {
-        console.log(err)
-        return res.status(500).send(err)
-    }
-}
-
-/*
-@desc   Gets user data
-@route  GET /api/users
-TODO: @access <REVIEW>
-*/
-// TODO: Create private API access with token
-export const getUser = async (req: Request, res: Response) => {
-    try {
-        const { _id } = req.body
-
-        if (!_id || !validateString(_id)) {
-            return res.status(400).send("Invalid user id.")
-        }
-
-        const user = await User.findOne({_id})
-        if (!user) {
-            return res.status(400).send("User not found.")
-        }
-
-        return res.status(200).json(user)
+        return res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            displayName: user.displayName,
+            email: user.email,
+            pfp: user.pfp,
+            pennies: user.pennies,
+            friends: user.friends,
+            token: generateToken(user._id)
+        })
 
     } catch (err) {
         console.log(err)
@@ -136,31 +135,20 @@ export const getUser = async (req: Request, res: Response) => {
 /*
 @desc   Adds pennies to user account
 @route  POST /api/users
-TODO: @access <REVIEW>
+@access PRIVATE
 */
 export const addPennies = async (req: Request, res: Response) => {
     try {
-        const { _id,
-                pennies
-        } = req.body
-
-        if (!_id || !validateString(_id)) {
-            return res.status(400).send("Invalid user id.")
-        }
+        const { pennies } = req.body
+        let user = req.user
 
         // TODO: Double check max number of pennies
         if (!pennies || !validateInteger(pennies, 1, 1000000)) {
             return res.status(400).send("Invalid number of pennies.")
         }
 
-        let user = await User.findOne({_id})
-        if (!user) {
-            return res.status(400).send("User not found.")
-        }
-
-        User.updateOne({_id}, {$set: {pennies}})
-        user = await User.findOne({_id})
-
+        User.findByIdAndUpdate({_id: user._id}, {$set: {pennies}})
+        user = await User.findById({_id: user._id})
         return res.status(200).json(user)
 
     } catch (err) {
@@ -169,5 +157,9 @@ export const addPennies = async (req: Request, res: Response) => {
     }
 }
 
+const generateToken = (_id: Types.ObjectId) => {
+    return jwt.sign(_id, process.env.TOKEN_SECRET, {expiresIn: "1d"})
+}
 
+// TODO: Get user separate into different gets (public profile view/logged in view/self view)
 // TODO: Delete user (how will it work with pennies?)

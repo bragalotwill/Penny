@@ -1,8 +1,8 @@
-import Comment from "../models/commentModel"
-import User from "../models/userModel"
-import Post from "../models/postModel"
+import Comment from "../models/commentModel.js"
+import User from "../models/userModel.js"
+import Post from "../models/postModel.js"
 import { Request, Response } from "express"
-import { validateString, validateUsername } from "./request"
+import { validateString, validateUsername } from "./request.js"
 
 /*
 @desc   Gets comment data
@@ -16,7 +16,7 @@ export const getComment = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid comment id.")
         }
 
-        const comment = await Comment.findOne({_id})
+        const comment = await Comment.findById({_id})
         if (!comment) {
             return res.status(400).send("Comment not found.")
         }
@@ -70,7 +70,7 @@ export const makeComment = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid text.")
         }
 
-        const user = await User.findOne({_id: creatorId})
+        const user = await User.findById({creatorId})
         if (!user) {
             return res.status(400).send("Creator user could not be found.")
         }
@@ -79,14 +79,14 @@ export const makeComment = async (req: Request, res: Response) => {
             return res.status(400).send("User does not have enough pennies to make comment.")
         }
 
-        const post = await Post.findOne({_id: postId})
+        const post = await Post.findById({postId})
         if (!post) {
             return res.status(400).send("Post could not be found.")
         }
 
         let parentComment = null
         if (parentCommentId && parentCommentId !== "") {
-            parentComment = await Post.findOne({parentCommentId})
+            parentComment = await Post.findById({parentCommentId})
             if (!parentComment) {
                 return res.status(400).send("Parent comment could not be found.")
             }
@@ -107,7 +107,7 @@ export const makeComment = async (req: Request, res: Response) => {
         const savedComment = await comment.save()
 
         try {
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: creatorId},
                 {
                     $push: {comments: savedComment._id},
@@ -121,13 +121,13 @@ export const makeComment = async (req: Request, res: Response) => {
         }
 
         try {
-            Post.updateOne(
+            Post.findByIdAndUpdate(
                 {_id: postId},
                 {$push: {comments: savedComment._id}}
             )
         } catch (err) {
             Comment.deleteOne({_id: savedComment._id})
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: creatorId},
                 {
                     $pull: {comments: savedComment._id},
@@ -139,20 +139,20 @@ export const makeComment = async (req: Request, res: Response) => {
         }
 
         try {
-            Comment.updateOne(
+            Comment.findByIdAndUpdate(
                 {_id: parentCommentId},
                 {$push: {subComments: savedComment._id}}
             )
         } catch (err) {
             Comment.deleteOne({_id: savedComment._id})
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: creatorId},
                 {
                     $pull: {comments: savedComment._id},
                     $set: {pennies: user.pennies + 1}
                 }
             )
-            Post.updateOne(
+            Post.findByIdAndUpdate(
                 {_id: postId},
                 {$pull: {comments: savedComment._id}}
             )
@@ -182,12 +182,12 @@ export const likeComment = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid comment id.")
         }
 
-        const comment = await Comment.findOne({_id: commentId})
+        const comment = await Comment.findById({commentId})
         if (!comment) {
             return res.status(400).send("Comment not found.")
         }
 
-        const user = await User.findOne({_id: userId})
+        const user = await User.findById({userId})
         if (!user) {
             return res.status(400).send("User not found.")
         }
@@ -196,7 +196,7 @@ export const likeComment = async (req: Request, res: Response) => {
             return res.status(400).send("User does not have enough pennies to like comment.")
         }
 
-        User.updateOne(
+        User.findByIdAndUpdate(
             {_id: userId},
             {
                 $push: {likedComments: commentId},
@@ -205,12 +205,12 @@ export const likeComment = async (req: Request, res: Response) => {
         )
 
         try {
-            Comment.updateOne(
+            Comment.findByIdAndUpdate(
                 {_id: commentId},
                 {$set: {pennies: comment.pennies + 1}}
             )
         } catch (err) {
-            User.updateOne(
+            User.findByIdAndUpdate(
                 {_id: userId},
                 {
                     $pull: {likedComments: commentId},

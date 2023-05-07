@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// TODO: add phone number
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -7,6 +8,12 @@ const userSchema = new mongoose.Schema({
         min: 5,
         max: 20,
         unique: true
+    },
+    displayName: {
+        type: String,
+        required: true,
+        min: 5,
+        max: 20
     },
     email: {
         type: String,

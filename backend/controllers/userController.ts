@@ -29,7 +29,7 @@ export const registerUser = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid password.")
         }
 
-        //TODO: validate string is a path
+        // TODO: validate string is a path
         if (!validateString(pfp)) {
             return res.status(400).send("Invalid profile picture link.")
         }
@@ -111,7 +111,7 @@ export const loginUser = async (req: Request, res: Response) => {
 @route  GET /api/users
 TODO: @access <REVIEW>
 */
-//TODO: Create private API access with token
+// TODO: Create private API access with token
 export const getUser = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
@@ -148,7 +148,7 @@ export const addPennies = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid user id.")
         }
 
-        //TODO: Double check max number of pennies
+        // TODO: Double check max number of pennies
         if (!pennies || !validateInteger(pennies, 1, 1000000)) {
             return res.status(400).send("Invalid number of pennies.")
         }
@@ -170,4 +170,4 @@ export const addPennies = async (req: Request, res: Response) => {
 }
 
 
-//TODO: Delete user (how will it work with pennies?)
+// TODO: Delete user (how will it work with pennies?)

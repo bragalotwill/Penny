@@ -35,7 +35,6 @@ TODO: @access <REVIEW>
 */
 export const makePost = async (req: Request, res: Response) => {
     try {
-        //TODO: make it cost a penny to create post
         const {
             creatorId,
             image,
@@ -65,6 +64,10 @@ export const makePost = async (req: Request, res: Response) => {
             return res.status(400).send("Creator user not found.")
         }
 
+        if (user.pennies < 1) {
+            return res.status(400).send("User does not have enough pennies to make a post.")
+        }
+
         const post = new Post({
             creator: creatorId,
             image: image ? image:"",
@@ -81,7 +84,10 @@ export const makePost = async (req: Request, res: Response) => {
         try {
             User.updateOne(
                 {_id: creatorId},
-                {$push: {posts: savedPost._id}}
+                {
+                    $push: {posts: savedPost._id},
+                    $set: {pennies: user.pennies - 1}
+                }
             )
         } catch (err) {
             Post.deleteOne({_id: savedPost._id})
@@ -167,4 +173,4 @@ export const likePost = async (req: Request, res: Response) => {
     }
 }
 
-//TODO: Delete Post (how will it work with pennies?)
+// TODO: Delete Post (how will it work with pennies?)

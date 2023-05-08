@@ -1,4 +1,22 @@
 import mongoose from "mongoose";
+import { Types } from "mongoose";
+
+export interface IUser extends mongoose.Document {
+    username: string,
+    displayName: string,
+    email: string,
+    password: string,
+    // TODO: make pennies their own model?
+    pennies: number,
+    friends: Types.ObjectId[],
+    posts: Types.ObjectId[],
+    comments: Types.ObjectId[],
+    likedComments: Types.ObjectId[],
+    likedPosts: Types.ObjectId[],
+    // TODO: make interest its own model
+    interests: string[],
+    pfp: string
+};
 
 // TODO: add phone number
 const userSchema = new mongoose.Schema({
@@ -62,5 +80,5 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true}
 )
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model<IUser>("User", userSchema)
 export default User

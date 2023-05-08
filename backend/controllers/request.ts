@@ -1,17 +1,16 @@
-
 export const validateString = (str: string, minLength: number = null, maxLength: number = null, regex: RegExp = null) => {
     if (typeof str !== "string") {
         return false
     }
 
-    if (minLength) {
-        if (Number.isInteger(minLength) && str.length < minLength) {
+    if (minLength && Number.isInteger(minLength)) {
+        if (str.length < minLength) {
             return false
         }
     }
 
-    if (maxLength) {
-        if (Number.isInteger(maxLength) && str.length < maxLength) {
+    if (maxLength && Number.isInteger(maxLength)) {
+        if (str.length > maxLength) {
             return false
         }
     }
@@ -37,14 +36,14 @@ export const validateInteger = (num: number, minValue: number = null, maxValue: 
         return false
     }
 
-    if(minValue) {
-        if (!Number.isInteger(minValue) || num < minValue) {
+    if (minValue && Number.isInteger(minValue)) {
+        if (num < minValue) {
             return false
         }
     }
 
-    if (maxValue) {
-        if (!Number.isInteger(maxValue) || num > maxValue) {
+    if (maxValue && Number.isInteger(maxValue)) {
+        if (num > maxValue) {
             return false
         }
     }
@@ -53,9 +52,9 @@ export const validateInteger = (num: number, minValue: number = null, maxValue: 
 }
 
 export const validateEmail = (email: string) => {
-    if (!validateString(email, 255)) {
+    if (!validateString(email, 5, 255)) {
         return false
     }
-    const validator = require("email-validator")
-    return validator.validate(email)
+    // TODO: Add more validation
+    return true
 }

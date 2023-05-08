@@ -4,10 +4,11 @@ import Post from "../models/postModel.js"
 import { Request, Response } from "express"
 import { validateString, validateUsername } from "./request.js"
 
+// TODOL Test functions
 /*
 @desc   Gets comment data
 @route  GET /api/comments
-TODO: @access <REVIEW>
+@access PUBLIC
 */
 export const getComment = async (req: Request, res: Response) => {
     try {
@@ -16,7 +17,7 @@ export const getComment = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid comment id.")
         }
 
-        const comment = await Comment.findById({_id})
+        const comment = await Comment.findById(_id)
         if (!comment) {
             return res.status(400).send("Comment not found.")
         }
@@ -32,21 +33,18 @@ export const getComment = async (req: Request, res: Response) => {
 /*
 @desc   Makes a new comment
 @route  POST /api/comments
-TODO: @access <REVIEW>
+@access PRIVATE
 */
 export const makeComment = async (req: Request, res: Response) => {
     try {
         const {
-            creatorId,
             postId,
             parentCommentId,
             image,
             text
         } = req.body
 
-        if (!creatorId || !validateString(creatorId)) {
-            return res.status(400).send("Invalid creator id.")
-        }
+        const user = req.user
 
         if (!postId || !validateString(postId)) {
             return res.status(400).send("Invalid post id.")
@@ -70,11 +68,6 @@ export const makeComment = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid text.")
         }
 
-        const user = await User.findById({creatorId})
-        if (!user) {
-            return res.status(400).send("Creator user could not be found.")
-        }
-
         if (user.pennies < 1) {
             return res.status(400).send("User does not have enough pennies to make comment.")
         }
@@ -86,14 +79,14 @@ export const makeComment = async (req: Request, res: Response) => {
 
         let parentComment = null
         if (parentCommentId && parentCommentId !== "") {
-            parentComment = await Post.findById({parentCommentId})
+            parentComment = await Post.findById(parentCommentId)
             if (!parentComment) {
                 return res.status(400).send("Parent comment could not be found.")
             }
         }
 
         const comment = new Comment ({
-            creator: creatorId,
+            creator: user._id,
             image: image ? image : "",
             text: text ? text : "",
             parentComment: parentCommentId ? parentCommentId : "",
@@ -108,7 +101,7 @@ export const makeComment = async (req: Request, res: Response) => {
 
         try {
             User.findByIdAndUpdate(
-                {_id: creatorId},
+                user._id,
                 {
                     $push: {comments: savedComment._id},
                     $set: {pennies: user.pennies - 1}
@@ -122,13 +115,13 @@ export const makeComment = async (req: Request, res: Response) => {
 
         try {
             Post.findByIdAndUpdate(
-                {_id: postId},
+                postId,
                 {$push: {comments: savedComment._id}}
             )
         } catch (err) {
             Comment.deleteOne({_id: savedComment._id})
             User.findByIdAndUpdate(
-                {_id: creatorId},
+                user._id,
                 {
                     $pull: {comments: savedComment._id},
                     $set: {pennies: user.pennies + 1}
@@ -140,20 +133,20 @@ export const makeComment = async (req: Request, res: Response) => {
 
         try {
             Comment.findByIdAndUpdate(
-                {_id: parentCommentId},
+                parentCommentId,
                 {$push: {subComments: savedComment._id}}
             )
         } catch (err) {
             Comment.deleteOne({_id: savedComment._id})
             User.findByIdAndUpdate(
-                {_id: creatorId},
+                user._id,
                 {
                     $pull: {comments: savedComment._id},
                     $set: {pennies: user.pennies + 1}
                 }
             )
             Post.findByIdAndUpdate(
-                {_id: postId},
+                postId,
                 {$pull: {comments: savedComment._id}}
             )
             return res.status(500).send(err)
@@ -169,14 +162,8 @@ export const makeComment = async (req: Request, res: Response) => {
 
 export const likeComment = async (req: Request, res: Response) => {
     try {
-        const {
-            userId,
-            commentId
-        } = req.body
-
-        if (!userId || !validateString(userId)) {
-            return res.status(400).send("Invalid user id.")
-        }
+        const { commentId } = req.body
+        const user = req.user
 
         if (!commentId || !validateString(commentId)) {
             return res.status(400).send("Invalid comment id.")
@@ -187,17 +174,12 @@ export const likeComment = async (req: Request, res: Response) => {
             return res.status(400).send("Comment not found.")
         }
 
-        const user = await User.findById({userId})
-        if (!user) {
-            return res.status(400).send("User not found.")
-        }
-
         if (user.pennies < 1) {
             return res.status(400).send("User does not have enough pennies to like comment.")
         }
 
         User.findByIdAndUpdate(
-            {_id: userId},
+            user._id,
             {
                 $push: {likedComments: commentId},
                 $set: {pennies: user.pennies - 1}
@@ -206,12 +188,12 @@ export const likeComment = async (req: Request, res: Response) => {
 
         try {
             Comment.findByIdAndUpdate(
-                {_id: commentId},
+                commentId,
                 {$set: {pennies: comment.pennies + 1}}
             )
         } catch (err) {
             User.findByIdAndUpdate(
-                {_id: userId},
+                user._id,
                 {
                     $pull: {likedComments: commentId},
                     $set: {pennies: user.pennies +1 }

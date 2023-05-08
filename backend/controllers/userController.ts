@@ -23,24 +23,24 @@ export const registerUser = async (req: Request, res: Response) => {
         } = req.body
 
         if (!username || !validateUsername(username)) {
-            return res.status(400).send("Invalid username")
+            return res.status(400).send("Username is not valid.")
         }
 
         if (!displayName || !validateUsername(displayName)) {
-            return res.status(400).send("Invalid display name.")
+            return res.status(400).send("Display name is not valid.")
         }
 
         if (!email || !validateEmail(email)) {
-            return res.status(400).send("Invalid email.")
+            return res.status(400).send("Email is not valid.")
         }
 
         if (!password || !validatePassword(password)) {
-            return res.status(400).send("Invalid password.")
+            return res.status(400).send("Password is not valid.")
         }
 
         // TODO: validate string is a path
-        if (!validateString(pfp)) {
-            return res.status(400).send("Invalid profile picture link.")
+        if (pfp && !validateString(pfp)) {
+            return res.status(400).send("Profile picture is not valid.")
         }
 
         const emailExists = await User.findOne({email})
@@ -65,7 +65,7 @@ export const registerUser = async (req: Request, res: Response) => {
         })
 
         if (!user) {
-            return res.status(400).send("Invalid user data.")
+            return res.status(500).send("User could not be created")
         }
 
         const savedUser = await user.save()
@@ -78,7 +78,7 @@ export const registerUser = async (req: Request, res: Response) => {
             token: generateToken(savedUser._id)
         })
 
-    } catch (err) {
+    } catch(err) {
         console.log(err)
         return res.status(500).send(err)
     }
@@ -97,16 +97,16 @@ export const loginUser = async (req: Request, res: Response) => {
         } = req.body
 
         if (!username || !validateUsername(username)) {
-            return res.status(400).send("Invalid username.")
+            return res.status(400).send("Username is not valid.")
         }
 
         if (!password || !validatePassword(password)) {
-            return res.status(400).send("Invalid password.")
+            return res.status(400).send("Password is not valid.")
         }
 
         const user = await User.findOne({username})
         if (!user) {
-            return res.status(400).send("User not found.")
+            return res.status(400).send("No user with that username.")
         }
 
         const hash = user.password
@@ -125,8 +125,7 @@ export const loginUser = async (req: Request, res: Response) => {
             friends: user.friends,
             token: generateToken(user._id)
         })
-
-    } catch (err) {
+    } catch(err) {
         console.log(err)
         return res.status(500).send(err)
     }
@@ -139,26 +138,29 @@ export const loginUser = async (req: Request, res: Response) => {
 */
 export const addPennies = async (req: Request, res: Response) => {
     try {
-        const { pennies } = req.body
-        let user = req.user
+        const { penniesToAdd } = req.body
+        const user = req.user
 
         // TODO: Double check max number of pennies
-        if (!pennies || !validateInteger(pennies, 1, 1000000)) {
+        if (!penniesToAdd || !validateInteger(parseInt(penniesToAdd, 10), 1, 1000000)) {
             return res.status(400).send("Invalid number of pennies.")
         }
 
-        User.findByIdAndUpdate({_id: user._id}, {$set: {pennies}})
-        user = await User.findById({_id: user._id})
-        return res.status(200).json(user)
+        const updatedUser = await User.findByIdAndUpdate(
+            user._id,
+            {$set: {pennies: (user.pennies + parseInt(penniesToAdd, 10))}},
+            {new: true}
+        )
 
-    } catch (err) {
+        return res.status(200).json(updatedUser)
+    } catch(err) {
         console.log(err)
         return res.status(500).send(err)
     }
 }
 
 const generateToken = (_id: Types.ObjectId) => {
-    return jwt.sign(_id, process.env.TOKEN_SECRET, {expiresIn: "1d"})
+    return jwt.sign({_id}, process.env.TOKEN_SECRET, {expiresIn: "1d"})
 }
 
 // TODO: Get user separate into different gets (public profile view/logged in view/self view)

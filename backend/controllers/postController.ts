@@ -3,10 +3,11 @@ import User from "../models/userModel.js"
 import { Request, Response } from "express"
 import { validateString, validateUsername } from "./request.js";
 
+// TODO: Test functions
 /*
 @desc   Gets post data
 @route  GET /api/posts
-TODO: @access <REVIEW>
+@access PUBLIC
 */
 export const getPost = async (req: Request, res: Response) => {
     try {
@@ -15,13 +16,12 @@ export const getPost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findById({_id})
+        const post = await Post.findById(_id)
         if (!post) {
             return res.status(400).send("No post with that id found.")
         }
 
         return res.status(200).json(post)
-
     } catch(err) {
         console.log(err)
         return res.status(500).send(err)
@@ -31,19 +31,16 @@ export const getPost = async (req: Request, res: Response) => {
 /*
 @desc   Makes a new post
 @route  POST /api/posts/create
-TODO: @access <REVIEW>
+@access PRIVATE
 */
 export const makePost = async (req: Request, res: Response) => {
     try {
         const {
-            creatorId,
             image,
             text
         } = req.body
 
-        if (!creatorId || !validateUsername(creatorId)) {
-            return res.status(400).send("Invalid post creator.")
-        }
+        const user = req.user
 
         if (!image && !text) {
             return res.status(400).send("Post must have image or text.")
@@ -59,17 +56,12 @@ export const makePost = async (req: Request, res: Response) => {
             return res.status(400).send("Invalid text.")
         }
 
-        const user = await User.findById({creatorId})
-        if (!user) {
-            return res.status(400).send("Creator user not found.")
-        }
-
         if (user.pennies < 1) {
             return res.status(400).send("User does not have enough pennies to make a post.")
         }
 
         const post = new Post({
-            creator: creatorId,
+            creator: user._id,
             image: image ? image:"",
             text: text ? text:""
         })
@@ -82,15 +74,15 @@ export const makePost = async (req: Request, res: Response) => {
 
         // add post id to user's posts
         try {
-            User.findByIdAndUpdate(
-                {_id: creatorId},
+            await User.findByIdAndUpdate(
+                user._id,
                 {
                     $push: {posts: savedPost._id},
                     $set: {pennies: user.pennies - 1}
                 }
             )
         } catch (err) {
-            Post.deleteOne({_id: savedPost._id})
+            await Post.deleteOne({_id: savedPost._id})
             console.log(err)
             return res.status(500).send(err)
         }
@@ -106,31 +98,20 @@ export const makePost = async (req: Request, res: Response) => {
 /*
 @desc   Likes a post
 @route  POST /api/posts/like
-TODO: @access <REVIEW>
+@access PRIVATE
 */
 export const likePost = async (req: Request, res: Response) => {
     try {
-        const {
-            userId,
-            postId
-        } = req.body
-
-        if (!userId || !validateUsername(userId)) {
-            return res.status(400).send("Invalid username.")
-        }
+        const { postId } = req.body
+        const user = req.user
 
         if (!postId || !validateString(postId)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findById({postId})
+        const post = await Post.findById(postId)
         if (!post) {
             return res.status(400).send("Post not found.")
-        }
-
-        const user = await User.findById({userId})
-        if (!user) {
-            return res.status(400).send("User not found.")
         }
 
         if (user.pennies < 1) {
@@ -138,7 +119,7 @@ export const likePost = async (req: Request, res: Response) => {
         }
 
         User.findByIdAndUpdate(
-            {_id: userId},
+            user._id,
             {
                 $push: {likedPosts: postId},
                 $set: {pennies: user.pennies - 1}
@@ -147,15 +128,15 @@ export const likePost = async (req: Request, res: Response) => {
 
         try {
             Post.findByIdAndUpdate(
-                {_id: postId},
+                postId,
                 {
-                    $push: {whoLiked: userId},
+                    $push: {whoLiked: user._id},
                     $set: {pennies: post.pennies + 1}
                 }
             )
         } catch (err) {
             User.findByIdAndUpdate(
-                {_id: userId},
+                user._id,
                 {
                     $pull: {likedPosts: postId},
                     $set: {pennies: user.pennies + 1}

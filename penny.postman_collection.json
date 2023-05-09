@@ -75,7 +75,964 @@
 						},
 						{
 							"name": "Error",
-							"item": []
+							"item": [
+								{
+									"name": "testUsername",
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												},
+												{
+													"key": "displayName",
+													"value": "wila braga",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "braga1@gmail.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/register",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"register"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testUsernameExists",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUsernameTooSmall",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "brag",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga2@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testNoUsername",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"value": "application/x-www-form-urlencoded",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "",
+															"type": "text",
+															"disabled": true
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga1",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUsernameTooBig",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwilltjeosmvi",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga1",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUsernameInvalidChars",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill@",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga1",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testDisplayName",
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill1",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												},
+												{
+													"key": "displayName",
+													"value": "wila braga",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "braga1@gmail.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/register",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"register"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testDisplayNameTooSmall",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill1",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wi",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testDisplayNameTooBig",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila bragaa adfpjapodfj 2340 23",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testDisplayNameInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill1",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila - braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testEmail",
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill1",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												},
+												{
+													"key": "displayName",
+													"value": "wila braga",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "braga@gmail.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/register",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"register"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testEmailExists",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill1",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testEmailInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill1",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "br@g",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testPassword",
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												},
+												{
+													"key": "displayName",
+													"value": "wila braga",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "braga@gmail.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/register",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"register"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testPasswordInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass1232++/\\<>",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga@gmail.com",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testPfp",
+									"request": {
+										"auth": {
+											"type": "bearer"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												},
+												{
+													"key": "displayName",
+													"value": "wila braga",
+													"type": "text"
+												},
+												{
+													"key": "email",
+													"value": "braga@gmail.com",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/register",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"register"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testPfpInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill1",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														},
+														{
+															"key": "displayName",
+															"value": "wila braga",
+															"type": "text"
+														},
+														{
+															"key": "email",
+															"value": "braga1@gmail.com",
+															"type": "text"
+														},
+														{
+															"key": "pfp",
+															"value": "",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/register",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"register"
+													],
+													"query": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"disabled": true
+														}
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
 						}
 					]
 				},
@@ -86,7 +1043,7 @@
 							"name": "Working",
 							"item": [
 								{
-									"name": "login",
+									"name": "bragalotwill",
 									"request": {
 										"method": "POST",
 										"header": [],
@@ -125,7 +1082,238 @@
 						},
 						{
 							"name": "Error",
-							"item": []
+							"item": [
+								{
+									"name": "testUsername",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testUsernameInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/login",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"login"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUsernameDNE",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/login",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"login"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testPassword",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "username",
+													"value": "bragalotwill",
+													"type": "text"
+												},
+												{
+													"key": "password",
+													"value": "pass123",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/login",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"login"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testPasswordInvalid",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/login",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"login"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testPasswordIncorrect",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "username",
+															"value": "bragalotwill",
+															"type": "text"
+														},
+														{
+															"key": "password",
+															"value": "pass123",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/users/login",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"users",
+														"login"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								}
+							]
 						}
 					]
 				},
@@ -160,7 +1348,71 @@
 						},
 						{
 							"name": "Error",
-							"item": []
+							"item": [
+								{
+									"name": "testGetMeNoToken",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "testGetMeWrongToken",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "testGetMeOldToken",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:5000/api/users/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -215,7 +1467,49 @@
 						},
 						{
 							"name": "Error",
-							"item": []
+							"item": [
+								{
+									"name": "testAddPenniesInvalidPennies",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU4NTA4MjMwZmMwNDBhZDk4N2IxN2EiLCJpYXQiOjE2ODM1MDk3NzQsImV4cCI6MTY4MzU5NjE3NH0.JSmZyFR9B1_zPjlSblofyS5O26bUdYucboz6Xq2BHPE",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "penniesToAdd",
+													"value": "10",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/users/pennies",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"users",
+												"pennies"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}
@@ -323,16 +1617,6 @@
 			]
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU4NTA4MjMwZmMwNDBhZDk4N2IxN2EiLCJpYXQiOjE2ODM1MDk3NzQsImV4cCI6MTY4MzU5NjE3NH0.JSmZyFR9B1_zPjlSblofyS5O26bUdYucboz6Xq2BHPE",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",

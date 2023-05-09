@@ -32,17 +32,17 @@ export const validateDisplayName = (displayName: string) => {
 }
 
 export const validateProfilePicture = (pfp: string) => {
-    //TODO: Add more validation
+    // TODO: Add more validation
     return validateString(pfp)
 }
 
 export const validateImage = (image: string) => {
-    //TODO: Add more validation
+    // TODO: Add more validation
     return validateString(image)
 }
 
 export const validateText = (text: string) => {
-    //TODO: Add more text support
+    // TODO: Add more text support
     return validateString(text, 1, 500, /^[a-zA-Z0-9!@#$%^&*]+$/)
 }
 

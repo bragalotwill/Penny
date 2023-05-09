@@ -2,7 +2,7 @@ import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { Request, Response } from "express"
-import { validateDisplayName, validateEmail, validateInteger, validatePassword, validateProfilePicture, validateUsername } from "./request.js"
+import { validateDisplayName, validateEmail, validateInteger, validatePassword, validateProfilePicture, validateString, validateUsername } from "./request.js"
 import { Types } from "mongoose"
 
 // TODO: Add phone number/email verification
@@ -141,13 +141,18 @@ export const addPennies = async (req: Request, res: Response) => {
         const user = req.user
 
         // TODO: Double check max number of pennies
-        if (!penniesToAdd || !validateInteger(parseInt(penniesToAdd, 10), 1, 1000000)) {
+        if (!penniesToAdd || !validateString(penniesToAdd, null, null, /^[0-9]+$/)) {
+            return res.status(400).send("Invalid number of pennies")
+        }
+        const pennies = parseInt(penniesToAdd, 10)
+
+        if (!validateInteger(pennies, 1, 1000000)) {
             return res.status(400).send("Invalid number of pennies.")
         }
 
         const updatedUser = await User.findByIdAndUpdate(
             user._id,
-            {$set: {pennies: (user.pennies + parseInt(penniesToAdd, 10))}},
+            {$set: {pennies: (user.pennies + pennies)}},
             {new: true}
         )
 
@@ -178,5 +183,6 @@ const generateToken = (_id: Types.ObjectId) => {
     return jwt.sign({_id}, process.env.TOKEN_SECRET, {expiresIn: "1d"})
 }
 
+// TODO: Add logoff
 // TODO: Get user separate into different gets (public profile view/logged in view/self view)
 // TODO: Delete user (how will it work with pennies?)

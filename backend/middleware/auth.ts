@@ -22,6 +22,10 @@ export const protect = async(req: Request, res: Response, next: NextFunction) =>
             const decodedId = jwt.verify(token, process.env.TOKEN_SECRET)
             // pass all user data except password
             const user = await User.findById(decodedId).select("-password")
+            if (!user) {
+                return res.status(400).send("User not found.")
+            }
+
             req.user = user
             next()
         } catch (err) {

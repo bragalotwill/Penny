@@ -2,7 +2,7 @@ import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { Request, Response } from "express"
-import { validateEmail, validateInteger, validatePassword, validateString, validateUsername } from "./request.js"
+import { validateDisplayName, validateEmail, validateInteger, validatePassword, validateProfilePicture, validateUsername } from "./request.js"
 import { Types } from "mongoose"
 
 // TODO: Add phone number/email verification
@@ -26,7 +26,7 @@ export const registerUser = async (req: Request, res: Response) => {
             return res.status(400).send("Username is not valid.")
         }
 
-        if (!displayName || !validateUsername(displayName)) {
+        if (!displayName || !validateDisplayName(displayName)) {
             return res.status(400).send("Display name is not valid.")
         }
 
@@ -38,8 +38,7 @@ export const registerUser = async (req: Request, res: Response) => {
             return res.status(400).send("Password is not valid.")
         }
 
-        // TODO: validate string is a path
-        if (pfp && !validateString(pfp)) {
+        if (pfp && !validateProfilePicture(pfp)) {
             return res.status(400).send("Profile picture is not valid.")
         }
 
@@ -133,7 +132,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 /*
 @desc   Adds pennies to user account
-@route  POST /api/users
+@route  POST /api/users/pennies
 @access PRIVATE
 */
 export const addPennies = async (req: Request, res: Response) => {
@@ -158,6 +157,22 @@ export const addPennies = async (req: Request, res: Response) => {
         return res.status(500).send(err)
     }
 }
+
+/*
+@desc   Gets user's data
+@route  GET /api/users
+@access PRIVATE
+*/
+export const getMe = async (req: Request, res: Response) => {
+    try {
+        const user = req.user
+        return res.status(200).json(user)
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
 
 const generateToken = (_id: Types.ObjectId) => {
     return jwt.sign({_id}, process.env.TOKEN_SECRET, {expiresIn: "1d"})

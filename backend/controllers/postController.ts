@@ -1,7 +1,7 @@
 import Post from "../models/postModel.js"
 import User from "../models/userModel.js"
 import { Request, Response } from "express"
-import { validateString, validateUsername } from "./request.js";
+import { validateId, validateImage, validateText } from "./request.js";
 
 // TODO: Test functions
 /*
@@ -12,7 +12,7 @@ import { validateString, validateUsername } from "./request.js";
 export const getPost = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
-        if (!_id || !validateString(_id)) {
+        if (!_id || !validateId(_id)) {
             return res.status(400).send("Invalid post id.")
         }
 
@@ -46,13 +46,12 @@ export const makePost = async (req: Request, res: Response) => {
             return res.status(400).send("Post must have image or text.")
         }
 
-        if (image && !validateString(image)) {
+        if (image && !validateImage(image)) {
             // TODO: Complete link validation
             return res.status(400).send("Invalid image.")
         }
 
-        if (text && !validateString(text, 1, 500, /[a-zA-Z0-9!@#$%^&*]+/)) {
-            // TODO: Allow more characters like emojis
+        if (text && !validateText(text)) {
             return res.status(400).send("Invalid text.")
         }
 
@@ -102,51 +101,56 @@ export const makePost = async (req: Request, res: Response) => {
 */
 export const likePost = async (req: Request, res: Response) => {
     try {
-        const { postId } = req.body
+        const { _id } = req.body
         const user = req.user
 
-        if (!postId || !validateString(postId)) {
+        if (!_id || !validateId(_id)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findById(postId)
+        const post = await Post.findById(_id)
         if (!post) {
             return res.status(400).send("Post not found.")
         }
 
         if (user.pennies < 1) {
-            return res.status(400).send("User does not have enough pennies to like post")
+            return res.status(400).send("User does not have enough pennies to like post.")
         }
 
-        User.findByIdAndUpdate(
+        // check if user has already liked post
+        if (post.whoLiked.includes(user._id)) {
+            return res.status(400).send("User has already liked post.")
+        }
+
+        await User.findByIdAndUpdate(
             user._id,
             {
-                $push: {likedPosts: postId},
+                $push: {likedPosts: _id},
                 $set: {pennies: user.pennies - 1}
             }
         )
 
         try {
-            Post.findByIdAndUpdate(
-                postId,
+            const updatedPost = await Post.findByIdAndUpdate(
+                _id,
                 {
                     $push: {whoLiked: user._id},
                     $set: {pennies: post.pennies + 1}
-                }
+                },
+                {new: true}
             )
+            return res.status(201).json(updatedPost)
         } catch (err) {
-            User.findByIdAndUpdate(
+            await User.findByIdAndUpdate(
                 user._id,
                 {
-                    $pull: {likedPosts: postId},
+                    $pull: {likedPosts: _id},
                     $set: {pennies: user.pennies + 1}
                 }
             )
             console.log(err);
             return res.status(500).send(err)
         }
-
-        return res.status(201).json(post)
 
     } catch(err) {
         console.log(err)

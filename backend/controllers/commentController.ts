@@ -2,7 +2,7 @@ import Comment from "../models/commentModel.js"
 import User from "../models/userModel.js"
 import Post from "../models/postModel.js"
 import { Request, Response } from "express"
-import { validateString, validateUsername } from "./request.js"
+import { validateId, validateImage, validateText } from "./request.js"
 
 // TODOL Test functions
 /*
@@ -13,7 +13,7 @@ import { validateString, validateUsername } from "./request.js"
 export const getComment = async (req: Request, res: Response) => {
     try {
         const { _id } = req.body
-        if (!_id || !validateString(_id)) {
+        if (!_id || !validateId(_id)) {
             return res.status(400).send("Invalid comment id.")
         }
 
@@ -46,11 +46,11 @@ export const makeComment = async (req: Request, res: Response) => {
 
         const user = req.user
 
-        if (!postId || !validateString(postId)) {
+        if (!postId || !validateId(postId)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        if (parentCommentId && !validateString(parentCommentId)) {
+        if (parentCommentId && !validateId(parentCommentId)) {
             return res.status(400).send("Invalid parent comment id.")
         }
 
@@ -58,12 +58,12 @@ export const makeComment = async (req: Request, res: Response) => {
             return res.status(400).send("Comment must have text or image.")
         }
 
-        if (!image || !validateString(image)) {
+        if (!image || !validateImage(image)) {
             // TODO: Complete image validation
             return res.status(400).send("Invalid image.")
         }
 
-        if (!text || !validateString(text, 1, 500, /[a-zA-Z0-9!@#$%^&*]+/)) {
+        if (!text || !validateText(text)) {
             // TODO: Add more text support
             return res.status(400).send("Invalid text.")
         }
@@ -162,14 +162,14 @@ export const makeComment = async (req: Request, res: Response) => {
 
 export const likeComment = async (req: Request, res: Response) => {
     try {
-        const { commentId } = req.body
+        const { _id } = req.body
         const user = req.user
 
-        if (!commentId || !validateString(commentId)) {
+        if (!_id || !validateId(_id)) {
             return res.status(400).send("Invalid comment id.")
         }
 
-        const comment = await Comment.findById({commentId})
+        const comment = await Comment.findById({_id})
         if (!comment) {
             return res.status(400).send("Comment not found.")
         }
@@ -181,21 +181,21 @@ export const likeComment = async (req: Request, res: Response) => {
         User.findByIdAndUpdate(
             user._id,
             {
-                $push: {likedComments: commentId},
+                $push: {likedComments: _id},
                 $set: {pennies: user.pennies - 1}
             }
         )
 
         try {
             Comment.findByIdAndUpdate(
-                commentId,
+                _id,
                 {$set: {pennies: comment.pennies + 1}}
             )
         } catch (err) {
             User.findByIdAndUpdate(
                 user._id,
                 {
-                    $pull: {likedComments: commentId},
+                    $pull: {likedComments: _id},
                     $set: {pennies: user.pennies +1 }
                 }
             )

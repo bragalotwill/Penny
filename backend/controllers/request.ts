@@ -16,7 +16,7 @@ export const validateString = (str: string, minLength: number = null, maxLength:
     }
 
     if (regex) {
-        if (!str.match(regex)) {
+        if (!regex.test(str)) {
             return false
         }
     }
@@ -24,11 +24,34 @@ export const validateString = (str: string, minLength: number = null, maxLength:
 }
 
 export const validateUsername = (username: string) => {
-    return validateString(username, 5, 20, /[a-zA-Z0-9]+/)
+    return validateString(username, 5, 20, /^[a-zA-Z0-9]+$/)
+}
+
+export const validateDisplayName = (displayName: string) => {
+    return validateString(displayName, 3, 20, /^[a-zA-Z0-9 ]+$/)
+}
+
+export const validateProfilePicture = (pfp: string) => {
+    //TODO: Add more validation
+    return validateString(pfp)
+}
+
+export const validateImage = (image: string) => {
+    //TODO: Add more validation
+    return validateString(image)
+}
+
+export const validateText = (text: string) => {
+    //TODO: Add more text support
+    return validateString(text, 1, 500, /^[a-zA-Z0-9!@#$%^&*]+$/)
+}
+
+export const validateId = (_id: string) => {
+    return validateString(_id.toLowerCase(), null, null, /^[a-e0-9]+$/)
 }
 
 export const validatePassword = (password: string) => {
-    return validateString(password, 6, 30, /[a-zA-Z0-9!@#$%^&*]+/)
+    return validateString(password, 6, 30, /^[a-zA-Z0-9!@#$%^&*]+$/)
 }
 
 export const validateInteger = (num: number, minValue: number = null, maxValue: number = null) => {

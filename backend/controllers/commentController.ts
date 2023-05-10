@@ -94,7 +94,7 @@ export const makeComment = async (req: Request, res: Response) => {
         })
 
         if (!comment) {
-            return res.status(400).send("Comment data invalid.")
+            return res.status(500).send("Comment could not be created.")
         }
 
         const savedComment = await comment.save()

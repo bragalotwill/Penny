@@ -13,67 +13,6 @@
 					"name": "Register",
 					"item": [
 						{
-							"name": "Working",
-							"item": [
-								{
-									"name": "bragalotwill",
-									"request": {
-										"auth": {
-											"type": "bearer"
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "urlencoded",
-											"urlencoded": [
-												{
-													"key": "username",
-													"value": "bragalotwill",
-													"type": "text"
-												},
-												{
-													"key": "password",
-													"value": "pass123",
-													"type": "text"
-												},
-												{
-													"key": "displayName",
-													"value": "wila braga",
-													"type": "text"
-												},
-												{
-													"key": "email",
-													"value": "braga@gmail.com",
-													"type": "text"
-												}
-											]
-										},
-										"url": {
-											"raw": "http://localhost:5000/api/users/register",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5000",
-											"path": [
-												"api",
-												"users",
-												"register"
-											],
-											"query": [
-												{
-													"key": "username",
-													"value": "bragalotwill",
-													"disabled": true
-												}
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
-						{
 							"name": "Error",
 							"item": [
 								{
@@ -1033,53 +972,180 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "bragalotwill",
+							"request": {
+								"auth": {
+									"type": "bearer"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "pass123",
+											"type": "text"
+										},
+										{
+											"key": "displayName",
+											"value": "wila braga",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "braga@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"register"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "noPenny",
+							"request": {
+								"auth": {
+									"type": "bearer"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "pass123",
+											"type": "text"
+										},
+										{
+											"key": "displayName",
+											"value": "wila braga",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "braga@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"register"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "highRoller",
+							"request": {
+								"auth": {
+									"type": "bearer"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "pass123",
+											"type": "text"
+										},
+										{
+											"key": "displayName",
+											"value": "wila braga",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "braga@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"register"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Login",
 					"item": [
-						{
-							"name": "Working",
-							"item": [
-								{
-									"name": "bragalotwill",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "urlencoded",
-											"urlencoded": [
-												{
-													"key": "username",
-													"value": "bragalotwill",
-													"type": "text"
-												},
-												{
-													"key": "password",
-													"value": "pass123",
-													"type": "text"
-												}
-											]
-										},
-										"url": {
-											"raw": "http://localhost:5000/api/users/login",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5000",
-											"path": [
-												"api",
-												"users",
-												"login"
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
 						{
 							"name": "Error",
 							"item": [
@@ -1314,38 +1380,48 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "bragalotwill",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "bragalotwill",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "pass123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Get",
 					"item": [
-						{
-							"name": "Working",
-							"item": [
-								{
-									"name": "getMe",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "http://localhost:5000/api/users/",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5000",
-											"path": [
-												"api",
-												"users",
-												""
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
 						{
 							"name": "Error",
 							"item": [
@@ -1413,58 +1489,33 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "getMe",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Pennies",
 					"item": [
-						{
-							"name": "Working",
-							"item": [
-								{
-									"name": "addPennies",
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU4NTA4MjMwZmMwNDBhZDk4N2IxN2EiLCJpYXQiOjE2ODM1MDk3NzQsImV4cCI6MTY4MzU5NjE3NH0.JSmZyFR9B1_zPjlSblofyS5O26bUdYucboz6Xq2BHPE",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "urlencoded",
-											"urlencoded": [
-												{
-													"key": "penniesToAdd",
-													"value": "10",
-													"type": "text"
-												}
-											]
-										},
-										"url": {
-											"raw": "http://localhost:5000/api/users/pennies",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "5000",
-											"path": [
-												"api",
-												"users",
-												"pennies"
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
 						{
 							"name": "Error",
 							"item": [
@@ -1510,6 +1561,47 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "addPennies",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDU4NTA4MjMwZmMwNDBhZDk4N2IxN2EiLCJpYXQiOjE2ODM1MDk3NzQsImV4cCI6MTY4MzU5NjE3NH0.JSmZyFR9B1_zPjlSblofyS5O26bUdYucboz6Xq2BHPE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "penniesToAdd",
+											"value": "10",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/users/pennies",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"users",
+										"pennies"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1519,100 +1611,653 @@
 			"name": "Post",
 			"item": [
 				{
-					"name": "makePost",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+					"name": "Make",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
 								{
-									"key": "text",
-									"value": "hello world!",
-									"type": "text"
+									"name": "testNoImgOrText",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "text",
+													"value": "hello world!",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "testInvalidText",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "text",
+													"value": "hello world!",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "testInvalidImage",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "text",
+													"value": "hello world!",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "testNoPennies",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "text",
+													"value": "hello world!",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/create",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"create"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
-						"url": {
-							"raw": "http://localhost:5000/api/posts/create",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"posts",
-								"create"
-							]
+						{
+							"name": "makePostText",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "text",
+											"value": "hello world!",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/posts/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"posts",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "makePostTextImage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "text",
+											"value": "hello world!",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/posts/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"posts",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "makePostImage",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "text",
+											"value": "hello world!",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/posts/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"posts",
+										"create"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "likePost",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+					"name": "Like",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
 								{
-									"key": "_id",
-									"value": "645988a89456e9ca3b7022e0",
-									"type": "text"
+									"name": "testUser",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": "645988a89456e9ca3b7022e0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/like",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"like"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testUserIsCreator",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/like",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														"like"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUserRelikes",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/like",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														"like"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testUserNoPennies",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/like",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														"like"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
+								},
+								{
+									"name": "testPost",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": "645988a89456e9ca3b7022e0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/like",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												"like"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testInvalidId",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/like",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														"like"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testPostNotFound",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/like",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														"like"
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
 								}
 							]
 						},
-						"url": {
-							"raw": "http://localhost:5000/api/posts/like",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"posts",
-								"like"
-							]
+						{
+							"name": "likePost",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "645988a89456e9ca3b7022e0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/posts/like",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"posts",
+										"like"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "getPost",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
+					"name": "Get",
+					"item": [
+						{
+							"name": "Error",
+							"item": [
 								{
-									"key": "_id",
-									"value": "645988a89456e9ca3b7022e0",
-									"type": "text"
+									"name": "testId",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": "645988a89456e9ca3b7022e0",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:5000/api/posts/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "5000",
+											"path": [
+												"api",
+												"posts",
+												""
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "testIdDNE",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														""
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										},
+										{
+											"name": "testIdInvalid",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "_id",
+															"value": "645988a89456e9ca3b7022e0",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "http://localhost:5000/api/posts/",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "5000",
+													"path": [
+														"api",
+														"posts",
+														""
+													]
+												}
+											},
+											"_postman_previewlanguage": null,
+											"header": null,
+											"cookie": [],
+											"body": null
+										}
+									]
 								}
 							]
 						},
-						"url": {
-							"raw": "http://localhost:5000/api/posts/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5000",
-							"path": [
-								"api",
-								"posts",
-								""
-							]
+						{
+							"name": "getPost",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "_id",
+											"value": "645988a89456e9ca3b7022e0",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/posts/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"posts",
+										""
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		}

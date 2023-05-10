@@ -1,3 +1,5 @@
+import { Types } from "mongoose"
+
 export const validateString = (str: string, minLength: number = null, maxLength: number = null, regex: RegExp = null) => {
     if (typeof str !== "string") {
         return false
@@ -24,11 +26,11 @@ export const validateString = (str: string, minLength: number = null, maxLength:
 }
 
 export const validateUsername = (username: string) => {
-    return validateString(username, 5, 20, /^[a-zA-Z0-9]+$/)
+    return validateString(username, 5, 20, /^[a-zA-Z0-9_]+$/)
 }
 
 export const validateDisplayName = (displayName: string) => {
-    return validateString(displayName, 3, 20, /^[a-zA-Z0-9 ]+$/)
+    return validateString(displayName, 3, 20, /^[a-zA-Z0-9!@#$%^&*_ ]+$/)
 }
 
 export const validateProfilePicture = (pfp: string) => {
@@ -43,11 +45,11 @@ export const validateImage = (image: string) => {
 
 export const validateText = (text: string) => {
     // TODO: Add more text support
-    return validateString(text, 1, 500, /^[a-zA-Z0-9!@#$%^&*]+$/)
+    return validateString(text, 1, 500, /^[a-zA-Z0-9!@#$%^&*_ ]+$/)
 }
 
 export const validateId = (_id: string) => {
-    return validateString(_id.toLowerCase(), null, null, /^[a-e0-9]+$/)
+    return Types.ObjectId.isValid(_id)
 }
 
 export const validatePassword = (password: string) => {

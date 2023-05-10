@@ -66,7 +66,7 @@ export const makePost = async (req: Request, res: Response) => {
         })
 
         if (!post) {
-            return res.status(400).send("Invalid post data.")
+            return res.status(500).send("Post could not be created.")
         }
 
         const savedPost = await post.save()
@@ -111,6 +111,11 @@ export const likePost = async (req: Request, res: Response) => {
         const post = await Post.findById(_id)
         if (!post) {
             return res.status(400).send("Post not found.")
+        }
+
+        // make sure post creator is not the one liking
+        if (user._id.equals(post.creator)) {
+            return res.status(400).send("Creator cannot like own post.")
         }
 
         if (user.pennies < 1) {

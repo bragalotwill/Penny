@@ -183,6 +183,5 @@ const generateToken = (_id: Types.ObjectId) => {
     return jwt.sign({_id}, process.env.TOKEN_SECRET, {expiresIn: "1d"})
 }
 
-// TODO: Add logoff
 // TODO: Get user separate into different gets (public profile view/logged in view/self view)
 // TODO: Delete user (how will it work with pennies?)

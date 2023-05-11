@@ -2,7 +2,7 @@ import User from "../models/userModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { Request, Response } from "express"
-import { validateDisplayName, validateEmail, validateInteger, validatePassword, validateProfilePicture, validateString, validateUsername } from "./request.js"
+import { validateDisplayName, validateEmail, validateId, validateInteger, validatePassword, validateProfilePicture, validateString, validateText, validateUsername } from "./request.js"
 import { Types } from "mongoose"
 
 
@@ -129,12 +129,13 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 }
 
+// TODO: Add banking
 /*
 @desc   Adds pennies to user account
-@route  POST /api/users/pennies
+@route  POST /api/users/buy
 @access PRIVATE
 */
-export const addPennies = async (req: Request, res: Response) => {
+export const buyPennies = async (req: Request, res: Response) => {
     try {
         const { penniesToAdd } = req.body
         const user = req.user
@@ -162,6 +163,98 @@ export const addPennies = async (req: Request, res: Response) => {
     }
 }
 
+// TODO: Add banking
+// TODO: Test function
+/*
+@desc   Removes pennies to user account
+@route  POST /api/users/withdraw
+@access PRIVATE
+*/
+export const withdrawPennies = async (req: Request, res: Response) => {
+    try {
+        const { penniesToRemove } = req.body
+        const user = req.user
+
+        // TODO: Double check max number of pennies
+        if (!penniesToRemove || !validateString(penniesToRemove, null, null, /^[0-9]+$/)) {
+            return res.status(400).send("Invalid number of pennies")
+        }
+        const pennies = parseInt(penniesToRemove, 10)
+
+        if (!validateInteger(pennies, 1, 1000000)) {
+            return res.status(400).send("Invalid number of pennies.")
+        }
+
+        if (user.pennies < pennies) {
+            return res.status(400).send("User does not have enough pennies.")
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            user.id,
+            {$set: {pennies: (user.pennies - pennies)}},
+            {new: true}
+        )
+
+        return res.status(200).json(updatedUser)
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
+// TODO: Test function
+/*
+@desc   Searches for a user
+@route  GET /api/users/search
+@access PRIVATE
+*/
+export const searchUser = async (req: Request, res: Response) => {
+    try {
+        const { search } = req.body
+        const user = req.user
+        if (!search || !validateText(search)) {
+            return res.status(400).send("Invalid search.")
+        }
+
+        // TODO: paging
+        const users = await User.aggregate([
+            {$match: {$and: [
+                {$text: {$search: search}},
+                {_id: {$ne: user._id}}
+            ]}},
+            {$set: {
+                numFriends: {$size: {$ifNull: ["$friends", []]}},
+                isFriend: {$cond: [{$gt: [{$size: {
+                    $setIntersection: [["$_id"], user.friends]
+                }}, 0]}, true, false]}
+            }},
+            {$sort: {
+                isFriend: -1,
+                score: {$meta: "textScore"},
+                numFriends: -1
+            }},
+            {$project: {
+                _id: 1, 
+                username: 1, 
+                displayName: 1, 
+                numFriends: 1, 
+                isFriend: 1, 
+                score: {$meta: "textScore"}
+            }},
+            {$limit: 20}
+        ])
+
+        if (!users) {
+            return res.status(200).json({})
+        }
+        return res.status(200).json(users)
+
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
+
 /*
 @desc   Gets user's data
 @route  GET /api/users
@@ -177,6 +270,39 @@ export const getMe = async (req: Request, res: Response) => {
     }
 }
 
+// TODO: Test function
+/*
+@desc   Adds friend to friends list
+@route  POST /api/users/friend
+@access PRIVATE
+*/
+export const addFriend = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.body
+        const user = req.user
+
+        if (!id || !validateId(id)) {
+            return res.status(400).send("Invalid friend id.")
+        }
+
+        const friend = await User.findById(id)
+        if (!friend) {
+            return res.status(400).send("Could not find user friend.")
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            user.id,
+            {$push: {friends: friend._id}},
+            {new: true}
+        )
+
+        return res.status(201).json(updatedUser)
+
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+}
 
 const generateToken = (_id: Types.ObjectId) => {
     return jwt.sign({_id}, process.env.TOKEN_SECRET, {expiresIn: "1d"})

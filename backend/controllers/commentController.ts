@@ -29,7 +29,7 @@ export const getComment = async (req: Request, res: Response) => {
     }
 }
 
-//TODO: Test
+// TODO: Test
 /*
 @desc   Makes a new comment
 @route  POST /api/comments/create
@@ -160,7 +160,7 @@ export const makeComment = async (req: Request, res: Response) => {
     }
 }
 
-//TODO: Test
+// TODO: Test
 /*
 @desc   Likes comment
 @route  POST /api/comments/like

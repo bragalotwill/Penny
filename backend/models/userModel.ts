@@ -22,6 +22,7 @@ export interface IUser extends mongoose.Document {
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
+        text: true,
         required: true,
         min: 5,
         max: 20,
@@ -29,6 +30,7 @@ const userSchema = new mongoose.Schema({
     },
     displayName: {
         type: String,
+        text: true,
         required: true,
         min: 5,
         max: 20

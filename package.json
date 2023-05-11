@@ -8,8 +8,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "start": "node dist/server.js"
   },
   "author": "Wila Braga",
   "license": "ISC",

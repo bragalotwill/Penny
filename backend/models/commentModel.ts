@@ -11,6 +11,7 @@ const commentSchema = new mongoose.Schema({
     },
     text: {
         type: String,
+        text: true,
         default: "",
         max: 500
     },

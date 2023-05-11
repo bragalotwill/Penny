@@ -217,6 +217,12 @@ export const searchUser = async (req: Request, res: Response) => {
         }
 
         // TODO: paging
+        /*
+        Sorts users by:
+        1. If they are your friend
+        2. How well the search term matched their user/display name
+        3. How many friends that user has
+        */
         const users = await User.aggregate([
             {$match: {$and: [
                 {$text: {$search: search}},

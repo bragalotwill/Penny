@@ -3,7 +3,6 @@ import User from "../models/userModel.js"
 import { Request, Response } from "express"
 import { validateId, validateImage, validateText } from "./request.js";
 
-// TODO: Test functions
 /*
 @desc   Gets post data
 @route  GET /api/posts
@@ -11,12 +10,12 @@ import { validateId, validateImage, validateText } from "./request.js";
 */
 export const getPost = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body
-        if (!_id || !validateId(_id)) {
+        const { id } = req.body
+        if (!id || !validateId(id)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findById(_id)
+        const post = await Post.findById(id)
         if (!post) {
             return res.status(400).send("No post with that id found.")
         }
@@ -47,7 +46,6 @@ export const makePost = async (req: Request, res: Response) => {
         }
 
         if (image && !validateImage(image)) {
-            // TODO: Complete link validation
             return res.status(400).send("Invalid image.")
         }
 
@@ -74,14 +72,14 @@ export const makePost = async (req: Request, res: Response) => {
         // add post id to user's posts
         try {
             await User.findByIdAndUpdate(
-                user._id,
+                user.id,
                 {
                     $push: {posts: savedPost._id},
                     $set: {pennies: user.pennies - 1}
                 }
             )
         } catch (err) {
-            await Post.deleteOne({_id: savedPost._id})
+            await Post.findByIdAndDelete(savedPost.id)
             console.log(err)
             return res.status(500).send(err)
         }
@@ -101,14 +99,14 @@ export const makePost = async (req: Request, res: Response) => {
 */
 export const likePost = async (req: Request, res: Response) => {
     try {
-        const { _id } = req.body
+        const { id } = req.body
         const user = req.user
 
-        if (!_id || !validateId(_id)) {
+        if (!id || !validateId(id)) {
             return res.status(400).send("Invalid post id.")
         }
 
-        const post = await Post.findById(_id)
+        const post = await Post.findById(id)
         if (!post) {
             return res.status(400).send("Post not found.")
         }
@@ -128,34 +126,61 @@ export const likePost = async (req: Request, res: Response) => {
         }
 
         await User.findByIdAndUpdate(
-            user._id,
+            user.id,
             {
-                $push: {likedPosts: _id},
+                $push: {likedPosts: post._id},
                 $set: {pennies: user.pennies - 1}
             }
         )
 
+        let updatedPost
         try {
-            const updatedPost = await Post.findByIdAndUpdate(
-                _id,
+            updatedPost = await Post.findByIdAndUpdate(
+                id,
                 {
                     $push: {whoLiked: user._id},
                     $set: {pennies: post.pennies + 1}
                 },
                 {new: true}
             )
-            return res.status(201).json(updatedPost)
         } catch (err) {
             await User.findByIdAndUpdate(
-                user._id,
+                user.id,
                 {
-                    $pull: {likedPosts: _id},
-                    $set: {pennies: user.pennies + 1}
+                    $pull: {likedPosts: post._id},
+                    $set: {pennies: user.pennies}
                 }
             )
             console.log(err);
             return res.status(500).send(err)
         }
+
+        try {
+            const creator = await User.findById(post.creator)
+            await User.findByIdAndUpdate(
+                creator.id,
+                {$set: {pennies: creator.pennies + 1}}
+            )
+        } catch (err) {
+            await Post.findByIdAndUpdate(
+                id,
+                {
+                    $push: {whoLiked: user._id},
+                    $set: {pennies: post.pennies}
+                }
+            )
+            await User.findByIdAndUpdate(
+                user.id,
+                {
+                    $pull: {likedPosts: post._id},
+                    $set: {pennies: user.pennies}
+                }
+            )
+            console.log(err);
+            return res.status(500).send(err)
+        }
+
+        return res.status(201).json(updatedPost)
 
     } catch(err) {
         console.log(err)

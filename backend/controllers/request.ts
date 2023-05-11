@@ -48,8 +48,8 @@ export const validateText = (text: string) => {
     return validateString(text, 1, 500, /^[a-zA-Z0-9!@#$%^&*_ ]+$/)
 }
 
-export const validateId = (_id: string) => {
-    return Types.ObjectId.isValid(_id)
+export const validateId = (id: string) => {
+    return Types.ObjectId.isValid(id)
 }
 
 export const validatePassword = (password: string) => {

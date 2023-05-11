@@ -5,7 +5,6 @@ import { Request, Response } from "express"
 import { validateDisplayName, validateEmail, validateInteger, validatePassword, validateProfilePicture, validateString, validateUsername } from "./request.js"
 import { Types } from "mongoose"
 
-// TODO: Add phone number/email verification
 
 /*
 @desc   Registers a new user
@@ -151,7 +150,7 @@ export const addPennies = async (req: Request, res: Response) => {
         }
 
         const updatedUser = await User.findByIdAndUpdate(
-            user._id,
+            user.id,
             {$set: {pennies: (user.pennies + pennies)}},
             {new: true}
         )
